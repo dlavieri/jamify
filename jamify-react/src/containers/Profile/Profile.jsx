@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import Song from '../../components/Song/song.jsx';
+import React from 'react';
 import Playlist from '../../components/Playlist/playlist.jsx';
 import './Profile.css';
 
@@ -26,24 +25,20 @@ const topSongs = [
     }
 ]
 
-export default class Profile extends Component {
-
-    
-    render() {
-        return (
-            <main className="profile-layout">
-                <header>
-                    <h1 className="profile-name">Ariana Grande</h1>
-                    <div className="artst-options">
-                        <button className="btn btn-light">Play</button>
-                        <button className="btn btn-light follow">Follow</button>
-                    </div>
-                </header>
-                
-                <Playlist
-                    playlistName="Most Popular"
-                    songs={topSongs}/>
-            </main>
-        )
-    }
+export default function Artist (props) {
+    return (
+        <main className="profile-layout">
+            <header>
+                <h1 className="profile-name">Ariana Grande</h1>
+                <div className="artst-options">
+                    <button className="btn btn-light">Play</button>
+                    <button className="btn btn-light follow">Follow</button>
+                </div>
+            </header>
+            
+            <Playlist
+                playlistName="Most Popular"
+                songs={topSongs}/>
+        </main>
+    )
 }

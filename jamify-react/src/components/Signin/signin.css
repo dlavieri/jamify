@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Fugaz+One|Lilita+One&display=swap');
+
+.login {
+    font-size: 0.9em;
+}
+
+.login > input {
+    margin-bottom: 15px;
+}
+
+.login .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.signin {
+   position: relative;
+   height: 80%;
+   width: 80%;
+   z-index: 1;
+}
+
+.signin::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: linear-gradient(45deg, #ff6482, #da8fff, #70f7ff);
+    opacity: 50%;
+    z-index: -1;
+}
+
+.branding {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.muzik-icon {
+    height: 60%;
+    width: 60%;
+    margin-left: -5%;
+}
+
+.muzik-brand-icon {
+    height: 100px;
+    width: 100px;
+    background: linear-gradient(-45deg, #ff6482, #da8fff, #70f7ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    border-radius: 50%;
+}
+
+h1.muzik-brand {
+    font-family: "Fugaz One", "Helvetica", sans-serif;
+    font-size: 5em;
+    background: linear-gradient(-45deg, #ff6482, #da8fff, #70f7ff);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}

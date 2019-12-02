@@ -74,7 +74,7 @@ export default class AudioPlayer extends Component {
                         <i className="fas fa-forward"></i>
                         <i className="fas fa-redo-alt"></i>
                     </div>
-                    <div id="timeline" class="song-timeline" onClick={this.mouseMove} ref={timeline => this.timeline = timeline}>
+                    <div id="timeline" className="song-timeline" onClick={this.mouseMove} ref={timeline => this.timeline = timeline}>
                         <div className="song-progress" id="progress" ref={progress => this.progress = progress}>
                             <div id="handle" onMouseDown={this.mouseDown} ref={handle => this.handle = handle}></div>
                         </div>
