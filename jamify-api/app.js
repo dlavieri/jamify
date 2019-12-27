@@ -1,26 +1,35 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const routes = require('./routes/routes');
+
 
 const db = require('./util/database');
-const SongDb = require('./models/song');
-const ArtistDb = require('./models/artist');
-const AlbumDb = require('./models/album');
-const PlaylistDb = require('./models/playlist');
-const UserDb = require('./models/user');
-const AlbumSongDb = require('./models/album-song');
-const PlaylistSongDb = require('./models/playlist-song');
+const Song = require('./models/song');
+const Mood = require('./models/mood');
+const Playlist = require('./models/playlist');
+const User = require('./models/user');
+const PlaylistSong = require('./models/playlist-song');
 
 const app = express();
 
-AlbumDb.belongsTo(ArtistDb, { constraints: true, onDelete: "CASCADE" });
-SongDb.belongsTo(AlbumDb, { constraints: true, onDelete: "CASCADE", through: AlbumSongDb });
-PlaylistDb.belongsTo(UserDb);
-SongDb.belongsToMany(PlaylistDb, { through: PlaylistSongDb });
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+})
+
+app.use(routes);
+
+Mood.hasMany(Song, { constraints: true, onDelete: "CASCADE"});
+Playlist.belongsTo(User);
+Song.belongsToMany(Playlist, { through: PlaylistSong });
 
 
-db.sync({force: true})
-    .then(
-        console.log('Success!')
-    )
+db.sync()
+    .then(result => {
+        app.listen(8080);
+    })
     .catch(err => console.log(err));
-
-app.listen(8080);

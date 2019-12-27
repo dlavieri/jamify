@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database');
 
-const PlaylistDb = sequelize.define('playlist', {
+const Playlist = sequelize.define('playlist', {
     _id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -15,4 +15,4 @@ const PlaylistDb = sequelize.define('playlist', {
     }
 });
 
-module.exports = PlaylistDb;
+module.exports = Playlist;

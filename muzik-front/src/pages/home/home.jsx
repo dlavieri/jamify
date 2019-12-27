@@ -1,0 +1,50 @@
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import fetchMoods from '../../redux/actions/fetchMoods';
+
+import Container from '../../components/container/container';
+import Mood from '../../components/mood/mood';
+import './home.css';
+
+class HomePage extends Component {
+
+    componentDidMount = () => {
+        const { fetchMoods } = this.props;
+        fetchMoods()
+    }
+
+    render() {
+        const { moods } = this.props;
+        return (
+            <Container>
+                <div className="homepage">
+                    <h3>Muzik for any Mood</h3>
+                    <div className="moods-wrapper">
+                        {moods.map(mood => {
+                            return <Mood 
+                            key={mood._id}
+                            moodId={mood._id}
+                            name={mood.name}
+                            img={mood.img}/>
+                        })}
+                    </div>
+                </div>
+            </Container>
+        )
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        moodsFetching: state.moodsFetching,
+        moods: state.moods,
+        error: state.error,
+    }
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    fetchMoods: fetchMoods
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

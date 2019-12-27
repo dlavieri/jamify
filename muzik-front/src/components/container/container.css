@@ -1,0 +1,7 @@
+.container {
+    height: auto;
+    width: inherit;
+    overflow-y: scroll;
+    padding-top: 3%;
+    padding-left: 3%;
+}

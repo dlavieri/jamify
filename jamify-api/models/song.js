@@ -2,29 +2,26 @@ const Sequelize = require('sequelize');
 
 const db = require('../util/database');
 
-const SongDb = db.define('song', {
+const Song = db.define('song', {
     _id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    songid: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     title: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    img: {
+    mp3Path: {
         type: Sequelize.TEXT,
         allowNull: false
     },
-    location: {
-        type: Sequelize.TEXT,
-        allowNull: false
+    _plays: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
     }
 })
 
-module.exports = SongDb;
+module.exports = Song;
