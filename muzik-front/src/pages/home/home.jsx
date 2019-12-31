@@ -10,8 +10,8 @@ import './home.css';
 class HomePage extends Component {
 
     componentDidMount = () => {
-        const { fetchMoods } = this.props;
-        fetchMoods()
+        const { fetchMoods, token } = this.props;
+        fetchMoods(token)
     }
 
     render() {
@@ -40,6 +40,7 @@ const mapStateToProps = state => {
         moodsFetching: state.moodsFetching,
         moods: state.moods,
         error: state.error,
+        token: state.token,
     }
 };
 

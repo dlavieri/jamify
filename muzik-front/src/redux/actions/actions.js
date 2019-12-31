@@ -49,55 +49,32 @@ export function fetchMoodsError(err) {
     }
 };
 
-// FETCH LIKED SONGS PLAYLIST
-export const FETCH_LIKED_SONGS_PENDING = "FETCH_LIKED_SONGS_PENDING";
-export const FETCH_LIKED_SONGS_SUCCESS = "FETCH_LIKED_SONGS_SUCCESS";
-export const FETCH_LIKED_SONGS_ERROR = "FETCH_LIKED_SONGS_ERROR";
+// FETCH PLAYLIST
+export const FETCH_PLAYLIST_PENDING = "FETCH_PLAYLIST_PENDING";
+export const FETCH_PLAYLIST_SUCCESS = "FETCH_PLAYLIST_SUCCESS";
+export const FETCH_PLAYLIST_ERROR = "FETCH_PLAYLIST_ERROR";
 
-export function fetchLikedPending() {
+export function fetchPlaylistPending() {
     return {
-        type: FETCH_LIKED_SONGS_PENDING
+        type: FETCH_PLAYLIST_PENDING
     }
 };
 
-export function fetchLikedSuccess(songs) {
+export function fetchPlaylistSuccess(playlist, songs) {
     return {
-        type: FETCH_LIKED_SONGS_SUCCESS,
+        type: FETCH_PLAYLIST_SUCCESS,
+        playlist: playlist,
         songs: songs
     }
 };
 
-export function fetchLikedError(err) {
+export function fetchPlaylistError(err) {
     return {
-        type: FETCH_LIKED_SONGS_ERROR,
+        type: FETCH_PLAYLIST_ERROR,
         error: err
     }
 };
 
-// FETCH RECENT SONGS PLAYLIST
-export const FETCH_RECENT_SONGS_PENDING = "FETCH_RECENT_SONGS_PENDING";
-export const FETCH_RECENT_SONGS_SUCCESS = "FETCH_RECENT_SONGS_SUCCESS";
-export const FETCH_RECENT_SONGS_ERROR = "FETCH_RECENT_SONGS_ERROR";
-
-export function fetchRecentPending() {
-    return {
-        type: FETCH_RECENT_SONGS_PENDING
-    }
-};
-
-export function fetchRecentSuccess(songs) {
-    return {
-        type: FETCH_RECENT_SONGS_SUCCESS,
-        songs: songs
-    }
-};
-
-export function fetchRecentError(err) {
-    return {
-        type: FETCH_RECENT_SONGS_ERROR,
-        error: err
-    }
-};
 
 // FETCH PAGE FOR SPECIFIC MOOD
 export const FETCH_MOOD_PENDING = "FETCH_MOOD_PENDING";

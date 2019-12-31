@@ -23,5 +23,19 @@
 
 a.mood__link {
     text-decoration: none;
-    color: #000;
+    color: #fff;
+}
+
+@media only screen and (max-width: 500px) {
+    a.mood__link {
+        font-size: 0.8em;
+    }
+
+    .mood__link {
+        height: 20%;
+        min-width: 120px;
+        width: 40%;
+        margin-top: 3%;
+        margin-left: 3%;
+    }
 }

@@ -1,16 +1,34 @@
 import React from 'react';
 import './love-btn.css';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
+const LoveBtn = (props) => {
 
-const loveSong = (e) => {
-    e.stopPropagation();
-    e.target.classList.toggle("__loved-active");
-}
+    function dispatchLove(e) {
+        e.stopPropagation();
+        const active = e.target.classList.contains("__loved-active");
+        const { songid, token } = props;
 
-const LoveBtn = () => {
+        if(active) {
+            return null
+        }
+        axios.post(`http://localhost:8080/love-song/${songid}`, 
+            {playlist: "Liked Tracks", headers: {Authorization: "Bearer: " + token}})
+        .then();
+
+        e.target.classList.toggle("__loved-active");
+    }
+
     return (
-        <div onClick={loveSong} className="__lovebtn"></div>
+        <div onClick={dispatchLove} className="__lovebtn"></div>
     )
 }
 
-export default LoveBtn;
+const mapStateToProps = state => {
+    return {
+        token: state.token
+    }
+};
+
+export default connect(mapStateToProps)(LoveBtn);

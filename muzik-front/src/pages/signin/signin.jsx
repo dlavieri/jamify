@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import './signin.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { login } from '../../redux/actions/auth-actions';
 
 class SigninPage extends Component {
 
     state = {
         email: null,
         password: null,
-        passMatch: null,
     }
 
     handleInputs = (e) => {
@@ -19,33 +21,23 @@ class SigninPage extends Component {
         })
     }
 
-    checkPassMatch = (e) => {
-        let confirmPass = e.target.value;
-        if (this.state.password === confirmPass) {
-            this.setState({
-                passMatch: true
-            });
-        } else {
-            this.setState({
-                passMatch: false
-            })
-        }
-    }
-
-    postSignup = (e) => {
+    postLogin = (e) => {
         e.preventDefault();
         const { email, password } = this.state;
         
-        axios.put('http://localhost:8080/new-user', {email, password})
+        axios.post('http://localhost:8080/login', {email, password})
+        .then(res => {
+            if (res.status === 200) {
+                this.props.login(res.data.user, res.data.token);
+            }
+        })
         .then(() => {
-                console.log("status 200");
-                this.props.history.push("/home");
+            this.props.history.push("/home");
         })
         .catch(err => console.log(err));
     }
 
     render() {
-
         return (
             <div className="signin">
                 <h4>Please sign in</h4>
@@ -54,14 +46,16 @@ class SigninPage extends Component {
                         name="email" 
                         type="email" 
                         placeholder="Enter Email" 
-                        onChange={this.handleInputs}></input>
+                        onChange={this.handleInputs}
+                        onBlur={this.handleInputs}></input>
                     <input className="form-control" 
                         name="password" 
                         type="password" 
                         placeholder="Password" 
-                        onChange={this.handleInputs}></input>
+                        onChange={this.handleInputs}
+                        onBlur={this.handleInputs}></input>
                     
-                    <button className="btn btn-light" onClick={this.postSignup}>Signup</button>
+                    <button className="btn btn-light" onClick={this.postLogin}>Login</button>
                     <Link to="/signup"><p>I don't have an account yet</p></Link>
                 </form>
 
@@ -70,4 +64,8 @@ class SigninPage extends Component {
     }
 }
 
-export default SigninPage;
+const mapDispatchToProps = dispatch => bindActionCreators({
+    login: login
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(SigninPage);

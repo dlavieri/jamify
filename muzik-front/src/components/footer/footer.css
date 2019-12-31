@@ -14,7 +14,7 @@
     display: flex;
     color: #1d1c1c;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 65%;
     max-width: 600px;
@@ -88,5 +88,39 @@
         margin-top: 8px;
         display: flex;
         justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    .footer-timeline {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        margin-top: 0;
+    }
+
+    .footer-timeline__progress {
+        width: 1px;
+        height: 5px;
+        background: linear-gradient(-15deg, #ff6482, #da8fff, #70f7ff);
+        border-radius: 5px;
+    }
+
+    .footer-controls {
+        height: 60px;
+    }
+    
+    .footer-controls i {
+        cursor: pointer;
+        font-size: 1.5em;
+    }
+    .footer-playbtn__border {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    .footer-controls .fa-play {
+        margin-left: 6px;
     }
 }

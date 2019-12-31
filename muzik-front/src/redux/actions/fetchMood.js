@@ -1,10 +1,11 @@
 import { fetchMoodPending, fetchMoodSuccess, fetchMoodError } from './actions';
 import axios from 'axios';
 
-function fetchMood(moodId) {
+function fetchMood(moodId, token) {
     return dispatch => {
         dispatch(fetchMoodPending());
-        axios.get(`http://localhost:8080/moods/${moodId}`)
+        axios.get(`http://localhost:8080/moods/${moodId}`, 
+            {headers: {Authorization: "Bearer: " + token}})
         .then(res => {
             if (res.error) {
                 throw(res.error)

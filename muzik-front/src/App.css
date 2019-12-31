@@ -2,15 +2,21 @@
 
 * {
   font-family: "Nunito", "Helvetica", "Arial", sans-serif;
+  font-size: 14px;
 }
 
 .App {
   text-align: center;
   background: #000;
+  width: 100vw;
+  height: 100vh;
 }
 
+
 .app-main-row {
-  height: 89vh;
+  min-height: 89vh;
+  width: 100%;
+  margin: 0;
 }
 
 .app-footer-row {
@@ -22,6 +28,10 @@
   min-width: 200px;
 }
 
+.app-nav-col.__notLoggedIn {
+  display: none;
+}
+
 .app-main-col {
   padding: 0;
   background: linear-gradient(#292929, #000);
@@ -31,7 +41,7 @@
   min-height: 70px;
   padding: 0;
   margin: 0;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;

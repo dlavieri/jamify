@@ -1,6 +1,8 @@
 import { FETCH_MOODS_PENDING, FETCH_MOODS_SUCCESS, FETCH_MOODS_ERROR } from './actions/actions';
 import { FETCH_MOOD_PENDING, FETCH_MOOD_SUCCESS,  FETCH_MOOD_ERROR } from './actions/actions';
+import { FETCH_PLAYLIST_PENDING, FETCH_PLAYLIST_SUCCESS, FETCH_PLAYLIST_ERROR } from './actions/actions';
 import { PLAY_SONG, RESUME_SONG, PAUSE_SONG } from './actions/actions';
+import { LOGIN } from './actions/auth-actions';
 
 const initialState = {
     isLoggedIn: false,
@@ -13,7 +15,6 @@ const initialState = {
 
     playlistFetching: false,
     currentPlaylist: null,
-    songsFetching: false,
     songs: [],
 
     isPlaying: false,
@@ -26,6 +27,14 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
     switch(action.type) {
+        case LOGIN:
+            console.log("logging in")
+            return {
+                ...state,
+                isLoggedIn: true,
+                token: action.token,
+                user: action.user
+            };
         case FETCH_MOODS_PENDING:
             return {
                 ...state,
@@ -56,6 +65,24 @@ const rootReducer = (state = initialState, action) => {
                 songs: action.songs
             };
         case FETCH_MOOD_ERROR:
+            return {
+                ...state,
+                playlistFetching: false,
+                error: action.error
+            };
+        case FETCH_PLAYLIST_PENDING:
+                return {
+                    ...state,
+                    playlistFetching: true
+                };
+        case FETCH_PLAYLIST_SUCCESS:
+            return {
+                ...state,
+                playlistFetching: false,
+                currentPlaylist: action.playlist,
+                songs: action.songs
+            };
+        case FETCH_PLAYLIST_ERROR:
             return {
                 ...state,
                 playlistFetching: false,
@@ -95,5 +122,3 @@ const rootReducer = (state = initialState, action) => {
 }
 
 export default rootReducer;
-
-// SELECTORS

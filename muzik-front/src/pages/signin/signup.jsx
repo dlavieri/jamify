@@ -33,12 +33,16 @@ class SignupPage extends Component {
 
     postSignup = (e) => {
         e.preventDefault();
-        const { email, password } = this.state;
-        
+        const { email, password, passMatch } = this.state;
+        if (!passMatch) {
+            return null;
+        }
+
         axios.put('http://localhost:8080/new-user', {email, password})
-        .then(() => {
-                console.log("status 200");
-                this.props.history.push("/home");
+        .then(res => {
+            if (res.status === 200) {
+                this.props.history.push("/")
+            };
         })
         .catch(err => console.log(err));
     }

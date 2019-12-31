@@ -24,8 +24,9 @@ app.use((req, res, next) => {
 app.use(routes);
 
 Mood.hasMany(Song, { constraints: true, onDelete: "CASCADE"});
-Playlist.belongsTo(User);
+User.hasMany(Playlist, {constraits: true, onDelete: "CASCADE"});
 Song.belongsToMany(Playlist, { through: PlaylistSong });
+Playlist.belongsToMany(Song, { through: PlaylistSong });
 
 
 db.sync()

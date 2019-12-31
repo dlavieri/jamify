@@ -3,6 +3,7 @@ import './playlist.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import fetchMood from '../../redux/actions/fetchMood';
+import fetchPlaylist from '../../redux/actions/fetchPlaylist';
 
 import SongList from '../../components/songlist/songlist';
 import Container from '../../components/container/container';
@@ -10,11 +11,19 @@ import Container from '../../components/container/container';
 class PlaylistPage extends Component {
 
     componentDidMount = () => {
-        const { mood, fetchMood } = this.props;
+        const { fetchMood, fetchPlaylist, token, match } = this.props;
+        const mood = match.url.slice(0,6) === "/moods";
+        const playlistName = match.params.playlistid;
+        
         if (mood) {
             const moodId = this.props.match.params.moodid;
-            fetchMood(moodId);
+            fetchMood(moodId, token);
         }
+        if (playlistName) {
+            fetchPlaylist(playlistName, token);
+        }
+
+        
     }
 
     render() {
@@ -33,12 +42,14 @@ class PlaylistPage extends Component {
 const mapStateToProps = state => {
     return {
         currentPlaylist: state.currentPlaylist,
-        songs: state.songs
+        songs: state.songs,
+        token: state.token
     }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    fetchMood: fetchMood
+    fetchMood: fetchMood,
+    fetchPlaylist: fetchPlaylist
 }, dispatch);
 
 

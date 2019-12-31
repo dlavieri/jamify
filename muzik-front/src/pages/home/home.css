@@ -16,4 +16,9 @@
     .homepage {
         padding-left: 5%;
     }
+
+    .homepage .moods-wrapper {
+        justify-content: space-evenly;
+        padding-bottom: 40px;
+    }
 }

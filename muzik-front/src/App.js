@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 
@@ -13,31 +13,33 @@ import UploadPage from './pages/upload/upload';
 import NavBar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
 import Header from './components/header/header';
-import { bindActionCreators } from '../../../../Library/Caches/typescript/3.6/node_modules/redux';
+
+const PrivateRoute = ({ page: Page, isLoggedIn, ...rest}) => (
+    <Route {...rest} render={props => (isLoggedIn ? <Page {...props}/> : <Redirect to="/" />)} />
+);
 
 
-
-function App() {
+function App(props) {
   return (
     <Router>
-      <div>
+      <div className="app-router-div">
         <Row className="app-main-row">
-          <Col xs={2} className="app-nav-col">
-            <NavBar />
+          <Col xs={2} className={props.isLoggedIn ? "app-nav-col" : "app-nav-col __notLoggedIn"}>
+            <NavBar isLoggedIn={props.isLoggedIn} user={props.user}/>
           </Col>
           <Col fluid={"true"} className="app-main-col">
-            <Header />
+            <Header user={props.user}/>
             <Route exact path="/" component={SigninPage} />
             <Route path="/signup" component={SignupPage} />
-            <Route path="/home" component={HomePage} />
-            <Route path="/moods/:moodid" render={(props) => <PlaylistPage mood={true} {...props}/>} />
-            <Route path="/playlists/:playlistid" component={PlaylistPage} />
-            <Route path="/admin/add-music" component={UploadPage} />
+            <PrivateRoute path="/home" page={HomePage} isLoggedIn={props.isLoggedIn} />
+            <PrivateRoute path="/moods/:moodid" page={PlaylistPage} isLoggedIn={props.isLoggedIn} />
+            <PrivateRoute path="/playlists/:playlistid" page={PlaylistPage} isLoggedIn={props.isLoggedIn} />
+            <Route path="/admin/add-music" component={UploadPage}/>
           </Col>
         </Row>
 
         <Row className="app-footer-row">
-          <Footer />
+          <Footer/>
         </Row>
       </div>
     </Router>
@@ -46,14 +48,11 @@ function App() {
 
 const mapStateToProps = state => {
   return {
-
+    user: state.user,
+    isLoggedIn: state.isLoggedIn
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  
-})
 
 
-
-export default App;
+export default connect(mapStateToProps)(App);
