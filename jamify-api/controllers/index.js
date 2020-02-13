@@ -58,29 +58,23 @@ exports.postSong = (req, res, next) => {
         return mood;
     })
     .then(mood => {
-        Song.findAll({where: {mp3Path: mp3Path}})
-        .then(song => {
-            console.log("creating song")
-            return mood.createSong({title: songName, mp3Path: mp3Path })
-        })
+        return mood.createSong({title: songName, mp3Path: mp3Path })
     })
     .then(() => {
-        console.log("success");
-        res.status(202);
+        res.status(202).end();
     })
     .catch(err=> console.log(err))
     
 };
 
-exports.putUser = (req, res, next) => {
+exports.newUser = (req, res, next) => {
     const userEmail = req.body.email;
     const userPass = req.body.password;
 
     User.findByPk(userEmail)
     .then(user => {
         if (user) {
-            res.status(303);
-            throw new Error("Username already exists");
+            res.status(303).end();
         }
         return bcrypt.hash(userPass, 12);
     })
@@ -90,8 +84,8 @@ exports.putUser = (req, res, next) => {
     .then(user => {
         return user.createPlaylist({name: "Liked Tracks"});
     })
-    .then(() => {
-        res.status(200);
+    .then(result => {
+        return res.status(200).end();
     })
     .catch(err => console.log(err));
 };
@@ -106,7 +100,7 @@ exports.login = (req, res, next) => {
     })
     .then(isEqual => {
         if (!isEqual) {
-            throw new Error("Incorrect Password!");
+            res.status(500).end();
         }
         const token = jwt.sign({email: user}, "jamifymuzik", {expiresIn: "1h"});
         return res.status(200).json({token: token, user: user});
@@ -126,8 +120,12 @@ exports.postNewPlaylist = (req, res, next) => {
             res.status(400);
             throw new Error("Not signed in!");
         } else {
-            return user.createPlaylist({name: playlistName})
+            user.createPlaylist({name: playlistName});
+            res.status(200);
         }
+    })
+    .then(() => {
+        res.end();
     })
     .catch(err => console.log(err));
 };
@@ -150,7 +148,7 @@ exports.postAddSongToPlaylist = (req, res, next) => {
         return;
     })
     .then(() => {
-        res.status(200);
+        res.status(200).end();
     })
     .catch(err => {
         console.log(err);
@@ -170,7 +168,7 @@ exports.postRemoveSongFromPlaylist = (req, res, next) => {
         return songs[0].playlistSong.destroy();
     })
     .then(res => {
-        res.status(200);
+        res.status(200).end();
     })
     .catch(err => {
         console.log(err)

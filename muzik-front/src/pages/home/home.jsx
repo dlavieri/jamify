@@ -5,6 +5,7 @@ import fetchMoods from '../../redux/actions/fetchMoods';
 
 import Container from '../../components/container/container';
 import Mood from '../../components/mood/mood';
+import LoadingAnimation from '../../util-components/load-animation/loading';
 import './home.css';
 
 class HomePage extends Component {
@@ -15,19 +16,22 @@ class HomePage extends Component {
     }
 
     render() {
-        const { moods } = this.props;
+        const { moods, moodsFetching } = this.props;
         return (
             <Container>
                 <div className="homepage">
                     <h3>Muzik for any Mood</h3>
                     <div className="moods-wrapper">
-                        {moods.map(mood => {
+                        {moodsFetching ? 
+                            <LoadingAnimation /> :
+                        moods.map(mood => {
                             return <Mood 
                             key={mood._id}
                             moodId={mood._id}
                             name={mood.name}
                             img={mood.img}/>
                         })}
+                        <br/>
                     </div>
                 </div>
             </Container>
@@ -48,4 +52,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     fetchMoods: fetchMoods
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage); 

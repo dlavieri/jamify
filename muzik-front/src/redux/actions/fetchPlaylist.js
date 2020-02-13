@@ -4,7 +4,7 @@ import axios from 'axios';
 function fetchPlaylist(playlistName, token) {
     return dispatch => {
         dispatch(fetchPlaylistPending());
-        axios.get(`http://localhost:8080/playlists/${playlistName}`, 
+        axios.get(`https://desolate-shore-33045.herokuapp.com/playlists/${playlistName}`, 
             { headers: {Authorization: "Bearer: " + token} })
         .then(res => {
             if (res.error) {

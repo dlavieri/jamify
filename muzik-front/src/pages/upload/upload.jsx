@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './upload.css';
 import axios from 'axios';
+import firebase from '../../storage/firebase';
 
 
 class UploadPage extends Component {
 
     state = {
-        mp3: null,
-        mp3Path: null,
-        songName: null,
+        mp3: '',
+        mp3Path: '',
+        songName: '',
         mood: 'joy',
     }
 
@@ -20,15 +21,31 @@ class UploadPage extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { mp3, mp3Path, songName, mood } = this.state;
-        console.log("submitting");
+        const { songName, mood } = this.state;
+        let mp3Path;
+        let file = document.getElementById("mp3FormInput").files[0];
+        let storageRef = firebase.storage().ref();
+        
+        if (file.type != "audio/mp3") {
+            return;
+        }
 
-        axios.post('http://localhost:8080/add-music', {mp3, mp3Path, songName, mood})
+        storageRef.child(file.name).put(file)
+        .then(snapshot => {
+            return snapshot.ref.getDownloadURL();
+        })
+        .then(downloadURL => {
+            mp3Path = downloadURL;
+            return mp3Path;
+        })
+        .then(() => {
+            axios.post(`https://desolate-shore-33045.herokuapp.com/add-music`, { mp3Path, songName, mood });
+        })
         .then(res => {
             this.setState({
-                mp3: null,
-                mp3Path: null,
-                songName: null,
+                mp3: '',
+                mp3Path: '',
+                songName: '',
                 mood: 'joy',
             })
         })
@@ -36,11 +53,12 @@ class UploadPage extends Component {
     }
 
 
+
     render() {
-        const { mp3, mp3Path, songName, mood } = this.state;
+        const { mp3, mp3Path, songName } = this.state;
     return (
         <div className="upload-page">
-            <h5>Add a new song</h5>
+            <h5>Add a new song - beta</h5>
             <form className="form-group">
                 <input type="file" id="mp3FormInput" value={mp3} className="form-control" name="mp3" onBlur={this.handleInputs} onChange={this.handleInputs}></input>
                 <input type="text" id="mp3PathFormInput" value={mp3Path} className="form-control" name="mp3Path" placeholder="mp3 Path" onBlur={this.handleInputs} onChange={this.handleInputs}></input>

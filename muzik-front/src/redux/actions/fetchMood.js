@@ -4,7 +4,7 @@ import axios from 'axios';
 function fetchMood(moodId, token) {
     return dispatch => {
         dispatch(fetchMoodPending());
-        axios.get(`http://localhost:8080/moods/${moodId}`, 
+        axios.get(`https://desolate-shore-33045.herokuapp.com/moods/${moodId}`, 
             {headers: {Authorization: "Bearer: " + token}})
         .then(res => {
             if (res.error) {
