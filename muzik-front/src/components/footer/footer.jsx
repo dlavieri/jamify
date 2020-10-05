@@ -33,7 +33,6 @@ class Footer extends Component {
             pauseSong(this.player.currentTime);
         } else if (!isPlaying && songDetails) {
             this.player.currentTime = pausedTime;
-            console.log(this.player.currentTime);
             this.player.play();
             resumeSong();
         }
@@ -118,5 +117,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     resumeSong: resumeSong
   }, dispatch)
   
-
-  export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export { Footer };
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

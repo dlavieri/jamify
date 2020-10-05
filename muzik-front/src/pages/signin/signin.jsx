@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { login } from '../../redux/actions/auth-actions';
+import { apiPath } from '../../env';
 
 import PassToggler from '../../util-components/pass-view-toggle/pass-toggler';
 
@@ -28,20 +29,22 @@ class SigninPage extends Component {
         e.preventDefault();
         const { email, password } = this.state;
         
-        axios.post(`https://desolate-shore-33045.herokuapp.com/login`, {email, password})
+        axios.post(apiPath + "login", {email, password})
         .then(res => {
             if (res.status === 200) {
                 this.props.login(res.data.user, res.data.token);
-            } else if (res.status != 200) {
-                this.setState({
-                    error: true
-                })
             }
         })
         .then(() => {
             this.props.history.push("/home");
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            if (err) {
+                this.setState({
+                    error: true,
+                })
+            }
+        });
     }
 
     render() {
